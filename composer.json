@@ -1,0 +1,13 @@
+{
+    "name": "capetown/core",
+    "description": "Capetown Core Library",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Tim Strijdhorst",
+            "email": "tim@decorrespondent.nl"
+        }
+    ],
+    "require": {}
+}
