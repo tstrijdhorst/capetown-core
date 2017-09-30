@@ -51,7 +51,7 @@ class KeybaseAPIClient {
 	public function getUsername(): string {
 		exec('keybase status -j ', $output);
 		
-		$outputArray = json_decode($output, true);
+		$outputArray = json_decode($output[0], true);
 		
 		return $outputArray['Username'];
 	}
