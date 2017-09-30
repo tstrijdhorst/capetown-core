@@ -63,14 +63,21 @@ class Bot {
 				
 				$secondWord = array_shift($messageParts);
 				if (isset($commands[$secondWord]) === false) {
-					$keybaseApiClient->sendMessage($message->getChannel(), 'Sorry '.$message->getUsername().' I did not understand that');
+					$keybaseApiClient->sendMessage(
+						$message->getChannel(),
+						'Sorry '.$message->getUsername().' I did not understand that'
+					);
 					continue;
 				}
 				
 				$command = $commands[$secondWord];
 				
-				$paramsBody = implode(' ', $messageParts);
-				$messageWithParamsBody = new Message($message->getChannel(), $message->getUsername(), $paramsBody, $message->getSentAt());
+				$paramsBody            = implode(' ', $messageParts);
+				$messageWithParamsBody = new Message(
+					$message->getChannel(),
+					$message->getUsername(),
+					$paramsBody, $message->getSentAt()
+				);
 				
 				$command->handleMessage($messageWithParamsBody);
 			}
