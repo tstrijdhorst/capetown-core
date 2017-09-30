@@ -44,8 +44,11 @@ class Bot {
 			1, function () use ($keybaseApiClient, $commands) {
 			$messagesUnread = $keybaseApiClient->getUnreadMessages();
 			
+			//@todo only pass messages that we know start with the name of the command
 			foreach ($commands as $command) {
-				$command->handleMessages($messagesUnread);
+				foreach ($messagesUnread as $message) {
+					$command->handleMessage($message);
+				}
 			}
 		}
 		);
