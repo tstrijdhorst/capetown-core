@@ -9,5 +9,9 @@
             "email": "tim@decorrespondent.nl"
         }
     ],
-    "require": {}
+    "autoload": {
+        "psr-4": {
+            "Capetown\\": "src/"
+        }
+    }
 }
