@@ -17,10 +17,10 @@ class Bot {
 	 */
 	private $botName;
 	
-	public function __construct(string $botName, KeybaseAPIClient $keybaseAPIClient, array $enabledCommands) {
+	public function __construct(KeybaseAPIClient $keybaseAPIClient, array $enabledCommands) {
 		$this->keybaseAPIClient      = $keybaseAPIClient;
 		$this->enabledCommandClasses = $enabledCommands;
-		$this->botName               = $botName;
+		$this->botName               = $keybaseAPIClient->getUsername();
 	}
 	
 	/**

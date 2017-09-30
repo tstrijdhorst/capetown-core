@@ -48,6 +48,14 @@ class KeybaseAPIClient {
 		$this->doAPICommand($uploadAttachmentCommand);
 	}
 	
+	public function getUsername(): string {
+		exec('keybase status -j ', $output);
+		
+		$outputArray = json_decode($output, true);
+		
+		return $outputArray['Username'];
+	}
+	
 	/**
 	 * @param $command
 	 * @return array
@@ -99,7 +107,7 @@ class KeybaseAPIClient {
 		];
 		
 		$unreadMessagesResult = $this->doAPICommand($readUnreadMessagesCommand);
-		$messagesRaw = $unreadMessagesResult['messages'];
+		$messagesRaw          = $unreadMessagesResult['messages'];
 		return $messagesRaw;
 	}
 	
@@ -111,7 +119,7 @@ class KeybaseAPIClient {
 			'method' => 'list',
 		];
 		
-		$listResult = $this->doAPICommand($listCommand);
+		$listResult       = $this->doAPICommand($listCommand);
 		$conversationsRaw = $listResult['conversations'];
 		
 		$channels = [];
