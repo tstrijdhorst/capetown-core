@@ -56,18 +56,23 @@ class Bot {
 					continue;
 				}
 				
-				if ($messageParts[0] !== '@'.$botName) {
+				$firstWord = array_shift($messageParts);
+				if ($firstWord !== '@'.$botName) {
 					continue;
 				}
 				
-				$commandName = $messageParts[1];
-				if (isset($commands[$commandName]) === false) {
+				$secondWord = array_shift($messageParts);
+				if (isset($commands[$secondWord]) === false) {
 					$keybaseApiClient->sendMessage($message->getChannel(), 'Sorry '.$message->getUsername().' I did not understand that');
 					continue;
 				}
 				
-				$command = $commands[$commandName];
-				$command->handleMessage($message);
+				$command = $commands[$secondWord];
+				
+				$paramsBody = implode(' ', $messageParts);
+				$messageWithParamsBody = new Message($message->getChannel(), $message->getUsername(), $paramsBody, $message->getSentAt());
+				
+				$command->handleMessage($messageWithParamsBody);
 			}
 		}
 		);
