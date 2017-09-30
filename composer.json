@@ -13,5 +13,8 @@
         "psr-4": {
             "Capetown\\Core\\": "src/"
         }
+    },
+    "require": {
+        "react/event-loop": "^0.4.3"
     }
 }
