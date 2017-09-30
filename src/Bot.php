@@ -12,10 +12,15 @@ class Bot {
 	 * @var CommandInterface[]
 	 */
 	private $enabledCommandClasses;
+	/**
+	 * @var string
+	 */
+	private $botName;
 	
-	public function __construct(KeybaseAPIClient $keybaseAPIClient, array $enabledCommands) {
+	public function __construct(string $botName, KeybaseAPIClient $keybaseAPIClient, array $enabledCommands) {
 		$this->keybaseAPIClient      = $keybaseAPIClient;
 		$this->enabledCommandClasses = $enabledCommands;
+		$this->botName               = $botName;
 	}
 	
 	/**
@@ -38,17 +43,31 @@ class Bot {
 	public function run(): void {
 		$loop = \React\EventLoop\Factory::create();
 		
+		$botName          = $this->botName;
 		$keybaseApiClient = $this->keybaseAPIClient;
 		$commands         = $this->getCommands();
 		$loop->addPeriodicTimer(
-			1, function () use ($keybaseApiClient, $commands) {
+			1, function () use ($botName, $keybaseApiClient, $commands) {
 			$messagesUnread = $keybaseApiClient->getUnreadMessages();
-			
-			//@todo only pass messages that we know start with the name of the command
-			foreach ($commands as $command) {
-				foreach ($messagesUnread as $message) {
-					$command->handleMessage($message);
+			foreach ($messagesUnread as $message) {
+				$messageParts = explode(' ', $message);
+				
+				if (count($messageParts) < 2) {
+					continue;
 				}
+				
+				if ($messageParts[0] !== '@'.$botName) {
+					continue;
+				}
+				
+				$commandName = $messageParts[1];
+				if (isset($commands[$commandName]) === false) {
+					$keybaseApiClient->sendMessage($message->getChannel(), 'Sorry '.$message->getUsername().' I did not understand that');
+					continue;
+				}
+				
+				$command = $commands[$commandName];
+				$command->handleMessage($message);
 			}
 		}
 		);
