@@ -76,7 +76,8 @@ class Bot {
 				$messageWithParamsBody = new Message(
 					$message->getChannel(),
 					$message->getUsername(),
-					$paramsBody, $message->getSentAt()
+					$paramsBody,
+					$message->getSentAt()
 				);
 				
 				$command->handleMessage($messageWithParamsBody);
