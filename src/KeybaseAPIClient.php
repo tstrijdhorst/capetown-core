@@ -64,7 +64,7 @@ class KeybaseAPIClient {
 	private function doAPICommand(array $command): array {
 		exec('keybase chat api -m '.escapeshellarg(json_encode($command)), $output);
 		
-		if (\Capetown\VERBOSE) {
+		if (CoreConfig::$verboseMode === true) {
 			echo $output[0].PHP_EOL;
 		}
 		
