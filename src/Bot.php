@@ -50,7 +50,7 @@ class Bot {
 			1, function () use ($botName, $keybaseApiClient, $commands) {
 			$messagesUnread = $keybaseApiClient->getUnreadMessages();
 			foreach ($messagesUnread as $message) {
-				$messageParts = explode(' ', $message);
+				$messageParts = explode(' ', $message->getBody());
 				
 				if (count($messageParts) < 2) {
 					continue;
